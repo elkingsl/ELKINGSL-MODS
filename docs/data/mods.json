@@ -4,7 +4,7 @@
         "type": "Mod",
         "version": "1.9",
         "description": "Adds new animations and combat improvements to Minecraft PE.",
-        "image": "docs/assets/icons/actions.jpeg",
+        "image": "ELKINGSL-MODS/assets/icons/actions.jpeg",
         "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/mods/actions-and-stuff/actions-and-stuff-1.9.mcpack"
     },
     {
@@ -12,7 +12,7 @@
         "type": "Shader",
         "version": "2.3",
         "description": "High performance dragon-themed shader for vibrant survival worlds.",
-        "image": "docs/assets/icons/newb.jpeg",
+        "image": "ELKINGSL-MODS/assets/icons/newb.jpeg",
         "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/shaders/newb-x-dragon-reimagined/newb-x-dragon.mcpack"
     }
 ]
