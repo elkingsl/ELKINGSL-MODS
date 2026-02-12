@@ -1,29 +1,29 @@
 body {
-  background-color: #121212;
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
 #mods-container {
-  display: grid;
-  gap: 20px;
+    display: grid;
+    gap: 20px;
 }
 
 .mod-card {
-  background: #1e1e1e;
-  padding: 15px;
-  border-radius: 12px;
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 12px;
 }
 
 .mod-card img {
-  max-width: 100%;
-  border-radius: 8px;
+    max-width: 100%;
+    border-radius: 8px;
 }
 
 /*.mod-card a {
@@ -37,18 +37,20 @@ h1 {
 }*/
 
 .mod-card a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: #2e7d32;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #2e7d32;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
 }
 
 .mod-card a:active {
-  transform: scale(0.96);
-  opacity: 0.85;
+    transform: scale(0.96);
+    opacity: 0.85;
 }

@@ -1,18 +1,18 @@
 [
-  {
-    "name": "Actions and Stuff",
-    "type": "Mod",
-    "version": "1.9",
-    "description": "Adds new animations and combat improvements to Minecraft PE.",
-    "image": "assets/icons/actions.jpeg",
-    "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/mods/actions-and-stuff/actions-and-stuff-1.9.mcpack"
-  },
-  {
-    "name": "Newb X Dragon Reimagined",
-    "type": "Shader",
-    "version": "2.3",
-    "description": "High performance dragon-themed shader for vibrant survival worlds.",
-    "image": "assets/icons/newb.jpeg",
-    "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/shaders/newb-x-dragon-reimagined/newb-x-dragon.mcpack"
-  }
+    {
+        "name": "Actions and Stuff",
+        "type": "Mod",
+        "version": "1.9",
+        "description": "Adds new animations and combat improvements to Minecraft PE.",
+        "image": "/assets/icons/actions.jpeg",
+        "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/mods/actions-and-stuff/actions-and-stuff-1.9.mcpack"
+    },
+    {
+        "name": "Newb X Dragon Reimagined",
+        "type": "Shader",
+        "version": "2.3",
+        "description": "High performance dragon-themed shader for vibrant survival worlds.",
+        "image": "/assets/icons/newb.jpeg",
+        "download": "https://raw.githubusercontent.com/elkingsl/ELKINGSL-MODS/main/content/shaders/newb-x-dragon-reimagined/newb-x-dragon.mcpack"
+    }
 ]
