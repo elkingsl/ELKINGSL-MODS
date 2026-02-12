@@ -26,7 +26,7 @@ h1 {
   border-radius: 8px;
 }
 
-.mod-card a {
+/*.mod-card a {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 12px;
@@ -34,4 +34,21 @@ h1 {
   color: white;
   text-decoration: none;
   border-radius: 6px;
+}*/
+
+.mod-card a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #2e7d32;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.mod-card a:active {
+  transform: scale(0.96);
+  opacity: 0.85;
 }
