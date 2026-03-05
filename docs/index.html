@@ -1,15 +1,55 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ELKINGSL MODS</title>
-        <link rel="stylesheet" href="styles.css" />
-    </head>
-    <body>
-        <h1>ELKINGSL MODS</h1>
-        <div id="mods-container"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ELKINGSL MODS</title>
+    <meta name="description" content="Download mods and shaders for Minecraft PE by ELKINGSL." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
 
-        <script src="script.js"></script>
-    </body>
+    <!-- Background grid noise -->
+    <div class="bg-grid"></div>
+
+    <header>
+      <div class="logo-wrap">
+        <img src="assets/logo.png" alt="ELKINGSL Mods" class="logo" />
+      </div>
+      <p class="tagline">Mods &amp; Shaders for Minecraft Bedrock</p>
+
+      <!-- Filter bar -->
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Mod">Mods</button>
+        <button class="filter-btn" data-filter="Shader">Shaders</button>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search mods..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <span class="search-icon">⌕</span>
+      </div>
+    </header>
+
+    <main>
+      <div id="mods-container"></div>
+      <p id="empty-msg" class="empty-msg" hidden>No mods found.</p>
+    </main>
+
+    <footer>
+      <p>Made by <strong>ELKINGSL</strong> · <a href="https://github.com/elkingsl/ELKINGSL-MODS" target="_blank" rel="noopener">GitHub</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
