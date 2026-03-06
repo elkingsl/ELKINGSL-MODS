@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — ELKINGSL MODS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── VARIABLES ── */
+    :root {
+      --bg:          #0d0d0f;
+      --surface:     #16161a;
+      --surface-2:   #1e1e24;
+      --border:      #2a2a33;
+      --accent:      #f07030;
+      --accent-dim:  #c05520;
+      --accent-glow: rgba(240,112,48,.22);
+      --text:        #e8e8f0;
+      --muted:       #7a7a90;
+      --green:       #2e7d32;
+      --green-h:     #388e3c;
+      --red:         #c62828;
+      --radius:      10px;
+      --t:           .2s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      padding: 0 20px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BG ── */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: .15;
+      pointer-events: none;
+    }
+
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      padding: 48px 0 36px;
+      animation: fade-up .6s both;
+    }
+    header h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-shadow: 0 0 24px var(--accent-glow);
+    }
+    header p {
+      color: var(--muted);
+      font-size: .88rem;
+      margin-top: 6px;
+      letter-spacing: .04em;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--t);
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── LOCK SCREEN ── */
+    #lock-screen {
+      animation: fade-up .5s .1s both;
+    }
+    #lock-screen .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+    }
+    #lock-screen .lock-icon {
+      font-size: 2.6rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    #lock-screen h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    #lock-screen p {
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    #lock-screen p a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    #lock-screen p a:hover { text-decoration: underline; }
+
+    /* ── FORM PANEL ── */
+    #upload-panel { display: none; animation: fade-up .45s both; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── FORM ELEMENTS ── */
+    .field { margin-bottom: 14px; }
+
+    label {
+      display: block;
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+      letter-spacing: .03em;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color var(--t), box-shadow var(--t);
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    select { cursor: pointer; }
+    select option { background: var(--surface-2); }
+
+    /* ── FILE DROP ZONES ── */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 22px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--t), background var(--t);
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(240,112,48,.05);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-zone .dz-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+    .drop-zone .dz-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .9rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .drop-zone .dz-label span { color: var(--accent); }
+    .drop-zone .dz-chosen {
+      margin-top: 6px;
+      font-size: .8rem;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--t), transform var(--t), box-shadow var(--t), opacity var(--t);
+    }
+    .btn:active { transform: scale(.97); opacity: .88; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-dim); box-shadow: 0 4px 18px var(--accent-glow); }
+    .btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+      margin-top: 24px;
+    }
+    .btn-green:hover { background: var(--green-h); box-shadow: 0 4px 18px rgba(46,125,50,.35); }
+    .btn-green:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    /* ── TOKEN FIELD ROW ── */
+    .token-row { display: flex; gap: 8px; align-items: flex-end; }
+    .token-row .field { flex: 1; margin-bottom: 0; }
+    .token-row .btn { width: auto; padding: 10px 18px; margin-top: 0; font-size: .85rem; }
+
+    /* ── STATUS LOG ── */
+    #status-log {
+      margin-top: 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: none;
+    }
+    #status-log .log-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .log-item {
+      font-size: .82rem;
+      line-height: 1.7;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .log-item.ok   { color: #66bb6a; }
+    .log-item.err  { color: #ef5350; }
+    .log-item.wait { color: var(--muted); }
+
+    /* ── SUCCESS BANNER ── */
+    #success-banner {
+      display: none;
+      background: rgba(46,125,50,.15);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 20px;
+      animation: fade-up .4s both;
+    }
+    #success-banner .s-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+    #success-banner h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: .08em;
+      color: #66bb6a;
+      margin-bottom: 6px;
+    }
+    #success-banner p { color: var(--muted); font-size: .85rem; }
+    #success-banner a { color: var(--accent); text-decoration: none; }
+    #success-banner a:hover { text-decoration: underline; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .token-row { flex-direction: column; }
+      .token-row .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<div class="page">
+  <header>
+    <h1>⚙ Admin Panel</h1>
+    <p>Upload a new mod or shader directly to your repository</p>
+    <a class="back-link" href="index.html">← Back to site</a>
+  </header>
+
+  <!-- ── LOCK SCREEN ── -->
+  <div id="lock-screen">
+    <div class="card">
+      <span class="lock-icon">🔐</span>
+      <h2>GitHub Access Token</h2>
+      <p>
+        Paste your GitHub <strong>Personal Access Token</strong> (PAT) with
+        <strong>Contents: Read &amp; Write</strong> permission.<br /><br />
+        Generate one at
+        <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">
+          github.com/settings/tokens
+        </a>
+        → Fine-grained token → select your repo → Contents: Read &amp; Write.
+        <br /><br />
+        Your token is <strong>never stored</strong> — it lives only in this browser tab.
+      </p>
+
+      <div class="token-row">
+        <div class="field">
+          <label for="pat-input">Personal Access Token</label>
+          <input type="password" id="pat-input" placeholder="github_pat_…" autocomplete="off" />
+        </div>
+        <button class="btn btn-primary" id="unlock-btn" onclick="unlock()">Unlock</button>
+      </div>
+      <p id="token-error" style="color:#ef5350;font-size:.82rem;margin-top:10px;display:none"></p>
+    </div>
+  </div>
+
+  <!-- ── UPLOAD PANEL ── -->
+  <div id="upload-panel">
+
+    <div class="section-label">Mod Info</div>
+
+    <div class="field">
+      <label for="mod-name">Name *</label>
+      <input type="text" id="mod-name" placeholder="e.g. Actions and Stuff" />
+    </div>
+
+    <div class="field">
+      <label for="mod-desc">Description *</label>
+      <textarea id="mod-desc" placeholder="Short description shown on the card…"></textarea>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field">
+        <label for="mod-type">Type *</label>
+        <select id="mod-type">
+          <option value="Mod">Mod</option>
+          <option value="Shader">Shader</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="mod-version">Version *</label>
+        <input type="text" id="mod-version" placeholder="e.g. 1.0" />
+      </div>
+    </div>
+
+    <div class="section-label">Files</div>
+
+    <div class="field">
+      <label>Mod File (.mcpack / .mcaddon) *</label>
+      <div class="drop-zone" id="mod-drop">
+        <input type="file" id="mod-file" accept=".mcpack,.mcaddon,.zip" />
+        <span class="dz-icon">📦</span>
+        <div class="dz-label">Drop file or <span>browse</span></div>
+        <div class="dz-chosen" id="mod-file-name"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Icon Image (jpeg / png) *</label>
+      <div class="drop-zone" id="icon-drop">
+        <input type="file" id="icon-file" accept="image/jpeg,image/png,image/webp" />
+        <span class="dz-icon">🖼</span>
+        <div class="dz-label">Drop image or <span>browse</span></div>
+        <div class="dz-chosen" id="icon-file-name"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-green" id="publish-btn" onclick="publish()">🚀 Publish to GitHub</button>
+
+    <!-- Status log -->
+    <div id="status-log">
+      <div class="log-title">Progress</div>
+      <div id="log-items"></div>
+    </div>
+
+    <!-- Success -->
+    <div id="success-banner">
+      <span class="s-icon">✅</span>
+      <h3>Published!</h3>
+      <p>Your mod is live. GitHub Pages may take ~30 seconds to update.<br />
+        <a href="index.html">← View the site</a>
+      </p>
+    </div>
+
+  </div><!-- /upload-panel -->
+</div><!-- /page -->
+
+<script>
+/* ============================================================
+   CONFIG — edit these to match your repo
+   ============================================================ */
+const REPO_OWNER = 'elkingsl';
+const REPO_NAME  = 'ELKINGSL-MODS';
+const BRANCH     = 'main';
+/* Paths inside the repo (docs/ is the GitHub Pages root) */
+const MODS_JSON_PATH   = 'docs/data/mods.json';
+const ICONS_FOLDER     = 'docs/assets/icons';
+const CONTENT_FOLDER   = 'docs/content'; // sub-folders created per mod
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let PAT = '';
+
+/* ============================================================
+   UNLOCK
+   ============================================================ */
+async function unlock() {
+  const input = document.getElementById('pat-input').value.trim();
+  const errEl = document.getElementById('token-error');
+  errEl.style.display = 'none';
+
+  if (!input) { showTokenError('Please paste your token.'); return; }
+
+  const btn = document.getElementById('unlock-btn');
+  btn.disabled = true;
+  btn.textContent = 'Checking…';
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+      headers: { Authorization: `Bearer ${input}`, 'X-GitHub-Api-Version': '2022-11-28' }
+    });
+    if (res.status === 200) {
+      PAT = input;
+      document.getElementById('lock-screen').style.display = 'none';
+      const panel = document.getElementById('upload-panel');
+      panel.style.display = 'block';
+    } else if (res.status === 401) {
+      showTokenError('Invalid token — check it and try again.');
+    } else if (res.status === 404) {
+      showTokenError('Repo not found — check REPO_OWNER / REPO_NAME in the script.');
+    } else {
+      showTokenError(`GitHub returned status ${res.status}.`);
+    }
+  } catch (e) {
+    showTokenError('Network error — are you online?');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Unlock';
+}
+
+function showTokenError(msg) {
+  const el = document.getElementById('token-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+/* Allow Enter key on token input */
+document.getElementById('pat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') unlock();
+});
+
+/* ============================================================
+   DROP ZONE LABELS
+   ============================================================ */
+document.getElementById('mod-file').addEventListener('change', function() {
+  document.getElementById('mod-file-name').textContent = this.files[0]?.name || '';
+});
+document.getElementById('icon-file').addEventListener('change', function() {
+  document.getElementById('icon-file-name').textContent = this.files[0]?.name || '';
+});
+
+['mod-drop','icon-drop'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('dragover',  e => { e.preventDefault(); el.classList.add('drag-over'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+  el.addEventListener('drop',      e => { e.preventDefault(); el.classList.remove('drag-over'); });
+});
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function slugify(str) {
+  return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+}
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = () => res(r.result.split(',')[1]);
+    r.onerror = () => rej(new Error('File read error'));
+    r.readAsDataURL(file);
+  });
+}
+
+/* GitHub API: get file SHA (needed to update existing files) */
+async function getSHA(path) {
+  const res = await ghFetch(`/contents/${path}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`getSHA failed for ${path}: ${res.status}`);
+  const data = await res.json();
+  return data.sha;
+}
+
+/* GitHub API: put a file (create or update) */
+async function putFile(path, base64Content, message, sha) {
+  const body = { message, content: base64Content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const res = await ghFetch(`/contents/${path}`, {
+    method: 'PUT',
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `PUT failed: ${res.status}`);
+  }
+  return res.json();
+}
+
+function ghFetch(endpoint, options = {}) {
+  return fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}${endpoint}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${PAT}`,
+      'Content-Type': 'application/json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(options.headers || {})
+    }
+  });
+}
+
+/* ============================================================
+   LOGGING UI
+   ============================================================ */
+function showLog() {
+  const log = document.getElementById('status-log');
+  log.style.display = 'block';
+  document.getElementById('log-items').innerHTML = '';
+}
+
+function addLog(msg, type = 'wait') {
+  const icons = { ok: '✔', err: '✖', wait: '◌' };
+  const div = document.createElement('div');
+  div.className = `log-item ${type}`;
+  div.innerHTML = `<span>${icons[type]}</span><span>${msg}</span>`;
+  document.getElementById('log-items').appendChild(div);
+  return div;
+}
+
+function updateLog(el, msg, type) {
+  const icons = { ok: '✔', err: '✖', wait: '◌' };
+  el.className = `log-item ${type}`;
+  el.innerHTML = `<span>${icons[type]}</span><span>${msg}</span>`;
+}
+
+/* ============================================================
+   PUBLISH
+   ============================================================ */
+async function publish() {
+  const name    = document.getElementById('mod-name').value.trim();
+  const desc    = document.getElementById('mod-desc').value.trim();
+  const type    = document.getElementById('mod-type').value;
+  const version = document.getElementById('mod-version').value.trim();
+  const modFile = document.getElementById('mod-file').files[0];
+  const iconFile= document.getElementById('icon-file').files[0];
+
+  /* Validate */
+  if (!name || !desc || !version || !modFile || !iconFile) {
+    alert('Please fill in all fields and select both files.');
+    return;
+  }
+
+  const btn = document.getElementById('publish-btn');
+  btn.disabled = true;
+  btn.textContent = 'Publishing…';
+  document.getElementById('success-banner').style.display = 'none';
+
+  showLog();
+
+  const slug       = slugify(name);
+  const iconExt    = iconFile.name.split('.').pop();
+  const modExt     = modFile.name.split('.').pop();
+  const iconPath   = `${ICONS_FOLDER}/${slug}.${iconExt}`;
+  const modFolder  = type === 'Shader'
+    ? `${CONTENT_FOLDER}/shaders/${slug}`
+    : `${CONTENT_FOLDER}/mods/${slug}`;
+  const modPath    = `${modFolder}/${slug}-${version}.${modExt}`;
+  const modRawURL  = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${modPath}`;
+
+  try {
+    /* 1 — Upload icon */
+    let step = addLog(`Uploading icon…`);
+    const iconB64 = await fileToBase64(iconFile);
+    const iconSHA = await getSHA(iconPath);
+    await putFile(iconPath, iconB64, `Add icon for ${name}`, iconSHA);
+    updateLog(step, `Icon uploaded → ${iconPath}`, 'ok');
+
+    /* 2 — Upload mod file */
+    step = addLog(`Uploading mod file…`);
+    const modB64 = await fileToBase64(modFile);
+    const modSHA = await getSHA(modPath);
+    await putFile(modPath, modB64, `Add ${name} v${version}`, modSHA);
+    updateLog(step, `Mod file uploaded → ${modPath}`, 'ok');
+
+    /* 3 — Read current mods.json */
+    step = addLog(`Reading mods.json…`);
+    const jsonRes = await ghFetch(`/contents/${MODS_JSON_PATH}`);
+    if (!jsonRes.ok) throw new Error(`Could not read mods.json (${jsonRes.status}). Check MODS_JSON_PATH in config.`);
+    const jsonData = await jsonRes.json();
+    const currentMods = JSON.parse(atob(jsonData.content));
+    updateLog(step, `mods.json loaded (${currentMods.length} existing mods)`, 'ok');
+
+    /* 4 — Check for duplicate */
+    const duplicate = currentMods.find(m => slugify(m.name) === slug);
+    if (duplicate) {
+      /* Update existing entry */
+      duplicate.version     = version;
+      duplicate.description = desc;
+      duplicate.image       = `assets/icons/${slug}.${iconExt}`;
+      duplicate.download    = modRawURL;
+    } else {
+      currentMods.push({
+        name,
+        type,
+        version,
+        description: desc,
+        image:    `assets/icons/${slug}.${iconExt}`,
+        download: modRawURL
+      });
+    }
+
+    /* 5 — Write mods.json */
+    step = addLog(`Updating mods.json…`);
+    const newJsonB64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentMods, null, 2))));
+    await putFile(MODS_JSON_PATH, newJsonB64, `Update mods.json — add ${name} v${version}`, jsonData.sha);
+    updateLog(step, 'mods.json updated ✓', 'ok');
+
+    /* Done */
+    document.getElementById('success-banner').style.display = 'block';
+    resetForm();
+
+  } catch (err) {
+    addLog(`Error: ${err.message}`, 'err');
+    console.error(err);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🚀 Publish to GitHub';
+}
+
+/* ============================================================
+   RESET FORM
+   ============================================================ */
+function resetForm() {
+  document.getElementById('mod-name').value    = '';
+  document.getElementById('mod-desc').value    = '';
+  document.getElementById('mod-version').value = '';
+  document.getElementById('mod-file').value    = '';
+  document.getElementById('icon-file').value   = '';
+  document.getElementById('mod-file-name').textContent  = '';
+  document.getElementById('icon-file-name').textContent = '';
+}
+</script>
+</body>
+</html>
