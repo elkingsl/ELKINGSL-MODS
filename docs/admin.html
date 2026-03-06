@@ -431,10 +431,10 @@
 const REPO_OWNER = 'elkingsl';
 const REPO_NAME  = 'ELKINGSL-MODS';
 const BRANCH     = 'main';
-/* Paths inside the repo (docs/ is the GitHub Pages root) */
-const MODS_JSON_PATH   = 'docs/data/mods.json';
-const ICONS_FOLDER     = 'docs/assets/icons';
-const CONTENT_FOLDER   = '../content'; // sub-folders created per mod
+/* Paths inside the repo */
+const MODS_JSON_PATH   = 'docs/data/mods.json';   // mods.json lives in docs/data/
+const ICONS_FOLDER     = 'docs/assets/icons';      // icons live in docs/assets/icons/
+const CONTENT_FOLDER   = 'content';                // mod files live in /content/ at repo root
 
 /* ============================================================
    STATE
@@ -472,7 +472,8 @@ async function unlock() {
       showTokenError(`GitHub returned status ${res.status}.`);
     }
   } catch (e) {
-    showTokenError('Network error — are you online?');
+    showTokenError(`Network error: ${e.message}. Make sure you are online and the token is correct.`);
+    console.error('Unlock error:', e);
   }
 
   btn.disabled = false;
@@ -637,7 +638,7 @@ async function publish() {
     const jsonRes = await ghFetch(`/contents/${MODS_JSON_PATH}`);
     if (!jsonRes.ok) throw new Error(`Could not read mods.json (${jsonRes.status}). Check MODS_JSON_PATH in config.`);
     const jsonData = await jsonRes.json();
-    const currentMods = JSON.parse(atob(jsonData.content));
+    const currentMods = JSON.parse(atob(jsonData.content.replace(/\n/g, '')));
     updateLog(step, `mods.json loaded (${currentMods.length} existing mods)`, 'ok');
 
     /* 4 — Check for duplicate */
@@ -671,7 +672,8 @@ async function publish() {
 
   } catch (err) {
     addLog(`Error: ${err.message}`, 'err');
-    console.error(err);
+    addLog('Check the browser console (F12) for full details.', 'err');
+    console.error('Publish error:', err);
   }
 
   btn.disabled = false;
